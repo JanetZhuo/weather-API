@@ -1,19 +1,16 @@
 const express = require('express');
-const axios = require('axios');
+require('dotenv').config();
+const routes = require('./routes');
+const helmet = require('helmet');
+const morgan = require('morgan')
+const logger = require('./utils/logger');
+
+const PORT = process.env.PORT || 3000;
+
 const app = express();
 
-app.get('/', (req, res) => res.send('welcome'));
+app.use(helmet());
+app.use(morgan('common'));
+app.use(routes);
 
-app.get('/api/weather/:cc/:city', (req, res) => {
-    const {cc, city} = req.params;
-    axios
-        .get(
-            `http://api.openweathermap.org/data/2.5/weather?q=${city},${cc}&APPID=33941f1bbe8bc1e025d87788d95f0c66`
-        )
-        .then(response => {
-            res.send(response.data);
-        })
-        .catch(err => console.log(err));
-})
-
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(PORT, () => logger.info(`app listen on port ${PORT}`));
