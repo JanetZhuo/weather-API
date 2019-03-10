@@ -2,11 +2,12 @@ const express = require("express");
 const axios = require("../utils/axios");
 const weather = require("../models/Weather");
 const responseFormatter = require("../utils/responseFormatter");
+const contryValidator = require('../middlewares/countryValidator');
 
 const router = express.Router();
 const APPID = process.env.APPID;
 
-router.get("/:cc/:city", (req, res, next) => {
+router.get("/:cc/:city", contryValidator, (req, res, next) => {
   const { cc, city } = req.params;
   const weatherType = req.query.weatherType;
   weather
