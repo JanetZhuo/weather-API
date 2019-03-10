@@ -8,17 +8,18 @@ class CurrentWeather {
         this.humidity = main.humidity;
         this.weather = weather.main;
         this.weatherDesc = weather.description;
+        this.windSpeed = wind.speed;
         this.windDirection = this.calculateWindDirection(wind.deg);
     }
 
     calculateWindDirection(degree) {
-        const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
-        const index = Math.round((heading/8)/5,625);
-        return directions[index];
+        const directions = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+        const value = Math.floor((degree+22.5) / 45);
+        return directions[value % 8];
     };
 
     calculateFahrenheit(celsius) {
-        const fahrenheit = (celsius * 9) /5 +32;
+        const fahrenheit = (celsius * 9) / 5 +32;
         return Math.round(fahrenheit * 100) / 100;
     };
 }
